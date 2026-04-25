@@ -53,16 +53,17 @@ function displayProducts() {
                 <button class="product-wishlist" onclick="toggleWishlist(${p.id})">${isFav ? '❤️' : '🤍'}</button>
             </div>
             <div class="product-info">
-                <div class="product-name">${p.name}</div>
-                <div class="product-price">₹${p.price}</div>
-                <div class="product-footer">
+                <div class="product-name" style="font-family:'Playfair Display', serif; font-weight:700; font-size:18px;">${p.name}</div>
+                <div class="product-meta" style="margin: 8px 0; font-size:12px; color:#7A5C3E;">⚖️ ${p.weight || '1 kg'}</div>
+                <div class="product-footer" style="display:flex; justify-content:space-between; align-items:center; margin-top:15px;">
+                    <div class="product-price" style="font-weight:700; color:#C4522A; font-size:20px;">₹${p.price}</div>
                     ${qty > 0 ? `
-                        <div class="qty-control" style="display:flex; align-items:center; gap:10px;">
-                            <button onclick="updateQty(${p.id}, -1)">-</button>
-                            <span>${qty}</span>
-                            <button onclick="updateQty(${p.id}, 1)">+</button>
+                        <div class="qty-control" style="display:flex; align-items:center; gap:12px; background:#FDF6EC; padding:5px 12px; border-radius:40px; border:1px solid rgba(196,82,42,0.2);">
+                            <button onclick="updateQty(${p.id}, -1)" style="border:none; background:white; width:32px; height:32px; border-radius:50%; cursor:pointer; font-weight:bold; box-shadow:0 2px 4px rgba(0,0,0,0.1); font-size:20px;">-</button>
+                            <span style="font-weight:700; min-width:15px; text-align:center; font-size:16px;">${qty}</span>
+                            <button onclick="updateQty(${p.id}, 1)" style="border:none; background:white; width:32px; height:32px; border-radius:50%; cursor:pointer; font-weight:bold; box-shadow:0 2px 4px rgba(0,0,0,0.1); font-size:20px;">+</button>
                         </div>` : 
-                        `<button class="btn-add-cart" onclick="addToCart(${p.id})">+ Add</button>`
+                        `<button class="btn-add-cart" onclick="addToCart(${p.id})" style="background:#C4522A; color:white; border:none; padding:10px 24px; border-radius:40px; font-weight:600; cursor:pointer; transition:0.2s;">+ Add</button>`
                     }
                 </div>
             </div>`;
