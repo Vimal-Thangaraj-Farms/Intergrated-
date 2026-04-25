@@ -10,16 +10,15 @@ const products = [
   { id: 8, name: 'பன்னீர் ஆப்பிள் (Water Apple)', category: 'fruits', price: 60, weight: '1 kg', image: 'Water_Apple.png', badge: 'Fresh', badgeType: 'new', desc: 'இனிப்பான மற்றும் நீர்ச்சத்து நிறைந்த பன்னீர் ஆப்பிள்.', rating: 4.8, reviews: 178 }
 ];
 
-// 2. STATE (Cart & Wishlist)
+// 2. STATE
 let cart = JSON.parse(localStorage.getItem('nk_cart') || '[]');
 let wishlist = JSON.parse(localStorage.getItem('nk_wishlist') || '[]');
 
-// 3. MASTER UI UPDATE (Calculations & Badges)
+// 3. MASTER UPDATE FUNCTION
 function updateCartAndUI() {
     const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
     const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
     
-    // Update Badge & Totals
     const cartBadge = document.getElementById('cartBadge');
     if (cartBadge) cartBadge.textContent = totalQty;
     
@@ -28,10 +27,9 @@ function updateCartAndUI() {
     
     localStorage.setItem('nk_cart', JSON.stringify(cart));
     displayProducts();
-    renderCartSidebar();
 }
 
-// 4. DISPLAY PRODUCTS (Separating into Chicken and Fruit Grids)
+// 4. DISPLAY LOGIC (Separating Grids)
 function displayProducts() {
     const chickenGrid = document.getElementById('chickenGrid');
     const fruitGrid = document.getElementById('fruitGrid');
@@ -59,12 +57,11 @@ function displayProducts() {
                 <div class="product-meta"><span>⚖️ ${p.weight}</span> <span>★ ${p.rating}</span></div>
                 <div class="product-footer">
                     <div class="product-price">₹${p.price}</div>
-                    ${qty > 0 ? `<div class="qty-control" style="display:flex; align-items:center; gap:10px;">
-                        <button class="qty-btn" onclick="updateQty(${p.id}, -1)">-</button>
-                        <span>${qty}</span>
-                        <button class="qty-btn" onclick="updateQty(${p.id}, 1)">+</button>
-                    </div>` 
-                    : `<button class="btn-add-cart" onclick="addToCart(${p.id})">+ Add</button>`}
+                    ${qty > 0 ? \`<div class="qty-control" style="display:flex; align-items:center; gap:10px;">
+                        <button onclick="updateQty(\${p.id}, -1)">-</button>
+                        <span>\${qty}</span>
+                        <button onclick="updateQty(\${p.id}, 1)">+</button>
+                    </div>\` : \`<button class="btn-add-cart" onclick="addToCart(\${p.id})">+ Add</button>\`}
                 </div>
             </div>`;
         
@@ -72,33 +69,7 @@ function displayProducts() {
     });
 }
 
-// 5. CART SIDEBAR RENDERING
-function renderCartSidebar() {
-    const container = document.getElementById('cartItemsContainer');
-    if (!container) return;
-    
-    if (cart.length === 0) {
-        container.innerHTML = '<div class="cart-empty">Your cart is empty</div>';
-        return;
-    }
-    
-    container.innerHTML = cart.map(item => `
-        <div class="cart-item" style="display:flex; gap:10px; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">
-            <img src="${item.image}" style="width:50px; height:50px; border-radius:8px;">
-            <div style="flex:1;">
-                <div style="font-weight:bold; font-size:14px;">${item.name}</div>
-                <div style="color:var(--terracotta); font-weight:700;">₹${(item.price * item.qty).toLocaleString('en-IN')}</div>
-            </div>
-            <div class="qty-control">
-                <button onclick="updateQty(${item.id}, -1)">-</button>
-                <span>${item.qty}</span>
-                <button onclick="updateQty(${item.id}, 1)">+</button>
-            </div>
-        </div>
-    `).join('');
-}
-
-// 6. GLOBAL ACTION FUNCTIONS (Attached to Window)
+// 5. WINDOW FUNCTIONS
 window.addToCart = (id) => {
     const product = products.find(p => p.id === id);
     const existing = cart.find(i => i.id === id);
@@ -121,5 +92,4 @@ window.toggleWishlist = (id) => {
     displayProducts();
 };
 
-// INITIALIZE
 document.addEventListener('DOMContentLoaded', updateCartAndUI);
