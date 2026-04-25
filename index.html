@@ -892,23 +892,39 @@
   </div>
 </section>
 
-<!-- ─── PRODUCTS ─── -->
-<section class="products-section" id="products">
-  <div class="products-header">
-    <div>
-      <div class="section-label">Fresh Stock</div>
-      <h2 class="section-title">Our Products</h2>
-    </div>
-    <div class="filter-bar">
-      <button class="filter-btn active" onclick="sortProducts('popular', this)">Popular</button>
-      <button class="filter-btn" onclick="sortProducts('price-low', this)">Price: Low–High</button>
-      <button class="filter-btn" onclick="sortProducts('price-high', this)">Price: High–Low</button>
-    </div>
-  </div>
-  <div class="products-grid" id="productsGrid">
-    <!-- Products injected by JS -->
-  </div>
-</section>
+<section class="products-section" id="chicken-products">
+        <div class="products-header">
+            <div>
+                <div class="section-label">Fresh Stock</div>
+                <h2 class="section-title">Country Chicken</h2>
+            </div>
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="sortProducts('popular', 'chickenGrid', this)">Popular</button>
+                <button class="filter-btn" onclick="sortProducts('price-low', 'chickenGrid', this)">Price: Low—High</button>
+                <button class="filter-btn" onclick="sortProducts('price-high', 'chickenGrid', this)">Price: High—Low</button>
+            </div>
+        </div>
+        <div class="products-grid" id="chickenGrid">
+            </div>
+    </section>
+
+    <hr style="opacity: 0.05; margin: 60px 0; border: none; height: 1px; background: white;">
+
+    <section class="products-section" id="fruit-products">
+        <div class="products-header">
+            <div>
+                <div class="section-label">Orchard Fresh</div>
+                <h2 class="section-title">Farm Fruits</h2>
+            </div>
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="sortProducts('popular', 'fruitGrid', this)">Popular</button>
+                <button class="filter-btn" onclick="sortProducts('price-low', 'fruitGrid', this)">Price: Low—High</button>
+                <button class="filter-btn" onclick="sortProducts('price-high', 'fruitGrid', this)">Price: High—Low</button>
+            </div>
+        </div>
+        <div class="products-grid" id="fruitGrid">
+            </div>
+    </section>
 
 <!-- ─── WHY US ─── -->
 <section class="why-us" id="why-us">
@@ -993,14 +1009,13 @@
     </div>
 </div>
     <div class="footer-col">
-      <h4>Shop</h4>
-      <ul>
+    <h4>Shop</h4>
+    <ul>
         <li><a onclick="filterByCategory('whole', null)">Whole Chicken</a></li>
         <li><a onclick="filterByCategory('curry-cut', null)">Curry Cut</a></li>
-        <li><a onclick="filterByCategory('boneless', null)">Boneless</a></li>
-        <li><a onclick="filterByCategory('special', null)">Special Parts</a></li>
-      </ul>
-    </div>
+        <li><a onclick="filterByCategory('fruits', null)">Fresh Fruits</a></li>
+    </ul>
+</div>
     <div class="footer-col">
       <h4>Help</h4>
       <ul>
