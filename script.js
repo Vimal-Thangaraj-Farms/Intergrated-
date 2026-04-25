@@ -1,4 +1,4 @@
-// 1. FULL PRODUCT DATA (Restored with all descriptions and ratings)
+// 1. FULL PRODUCT DATA
 const products = [
   { 
     id: 1, name: 'முழு நாட்டுக்கோழி - பெரியது (Family Pack)', category: 'whole', 
@@ -68,16 +68,15 @@ function updateAll() {
     displayProducts();
     renderCartSidebar();
     
-    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
     const badge = document.getElementById('cartBadge');
-    if (badge) badge.textContent = totalQty;
+    if (badge) badge.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
 
-    const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
     const totalVal = document.getElementById('cartTotalValue');
-    if (totalVal) totalVal.textContent = `₹${totalPrice.toLocaleString('en-IN')}`;
+    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    if (totalVal) totalVal.textContent = `₹${total.toLocaleString('en-IN')}`;
 }
 
-// 4. DISPLAY PRODUCTS
+// 4. DISPLAY PRODUCTS (Updated to show description, old price, and ratings)
 function displayProducts() {
     const chickenGrid = document.getElementById('chickenGrid');
     const fruitGrid = document.getElementById('fruitGrid');
@@ -98,18 +97,18 @@ function displayProducts() {
                     <img src="${p.image}" alt="${p.name}" style="width:100%; height:200px; object-fit:cover;">
                     <button class="product-wishlist" onclick="toggleWishlist(${p.id})">${isFav ? '❤️' : '🤍'}</button>
                 </div>
-                <div class="product-info">
-                    <div class="product-category" style="color:#C4522A; font-size:11px; font-weight:700; text-transform:uppercase;">${p.category}</div>
-                    <div class="product-name" style="font-family:'Playfair Display', serif; font-weight:700; font-size:18px; margin: 5px 0;">${p.name}</div>
-                    <div class="product-desc" style="font-size:13px; color:#7A5C3E; line-height:1.5; margin-bottom:12px;">${p.desc}</div>
-                    <div class="product-meta" style="display:flex; gap:15px; margin-bottom:15px; font-size:12px;">
-                        <span>⚖️ ${p.weight}</span>
-                        <span style="color:#D4A843;">★ ${p.rating} (${p.reviews})</span>
+                <div class="product-info" style="padding: 20px;">
+                    <div class="product-category" style="color:#C4522A; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px;">${p.category}</div>
+                    <div class="product-name" style="font-family:'Playfair Display', serif; font-weight:700; font-size:18px; margin: 8px 0; color:#1A1208;">${p.name}</div>
+                    <div class="product-desc" style="font-size:13px; color:#7A5C3E; line-height:1.6; margin-bottom:15px; height: 40px; overflow: hidden;">${p.desc}</div>
+                    <div class="product-meta" style="display:flex; align-items:center; gap:15px; margin-bottom:15px; font-size:12px;">
+                        <span style="background:#FDF6EC; padding:2px 8px; border-radius:10px;">⚖️ ${p.weight}</span>
+                        <span style="color:#D4A843; font-weight:600;">★ ${p.rating} (${p.reviews})</span>
                     </div>
                     <div class="product-footer" style="display:flex; justify-content:space-between; align-items:center;">
-                        <div class="product-price" style="font-weight:700; color:#C4522A; font-size:20px;">
+                        <div class="product-price" style="font-weight:700; color:#C4522A; font-size:22px;">
                             ₹${p.price}
-                            ${p.oldPrice ? `<span style="text-decoration:line-through; color:#A08060; font-size:14px; margin-left:5px; font-weight:400;">₹${p.oldPrice}</span>` : ''}
+                            ${p.oldPrice ? `<span style="text-decoration:line-through; color:#A08060; font-size:14px; margin-left:6px; font-weight:400;">₹${p.oldPrice}</span>` : ''}
                         </div>
                         ${qty > 0 ? `
                             <div class="qty-control" style="display:flex; align-items:center; gap:12px; background:#FDF6EC; padding:6px 14px; border-radius:40px; border:1.5px solid rgba(196,82,42,0.15);">
@@ -117,7 +116,7 @@ function displayProducts() {
                                 <span style="font-weight:700; min-width:20px; text-align:center;">${qty}</span>
                                 <button onclick="updateQty(${p.id}, 1)" style="width:32px; height:32px; border-radius:50%; border:none; background:white; cursor:pointer; font-weight:bold; box-shadow:0 2px 4px rgba(0,0,0,0.1);">+</button>
                             </div>` : 
-                            `<button class="btn-add-cart" onclick="addToCart(${p.id})" style="background:#C4522A; color:white; border:none; padding:10px 24px; border-radius:40px; font-weight:600; cursor:pointer;">+ Add</button>`
+                            `<button class="btn-add-cart" onclick="addToCart(${p.id})" style="background:#C4522A; color:white; border:none; padding:12px 24px; border-radius:40px; font-weight:600; cursor:pointer; box-shadow: 0 4px 12px rgba(196,82,42,0.2);">+ Add</button>`
                         }
                     </div>
                 </div>
@@ -132,14 +131,14 @@ function renderCartSidebar() {
     const container = document.getElementById('cartItemsContainer');
     if (!container) return;
     if (cart.length === 0) {
-        container.innerHTML = '<div class="cart-empty">Your cart is empty 🛒</div>';
+        container.innerHTML = '<div class="cart-empty" style="text-align:center; padding:40px 0; color:#A08060;">Your cart is empty 🛒</div>';
         return;
     }
     container.innerHTML = cart.map(item => `
         <div class="cart-item" style="display:flex; gap:15px; padding:15px 0; border-bottom:1px solid #eee;">
             <img src="${item.image}" style="width:60px; height:60px; border-radius:10px; object-fit:cover;">
             <div style="flex:1;">
-                <div style="font-weight:bold; font-size:14px; margin-bottom:5px;">${item.name}</div>
+                <div style="font-weight:bold; font-size:14px; margin-bottom:5px; color:#1A1208;">${item.name}</div>
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <div style="font-weight:bold; color:#C4522A;">₹${(item.price * item.qty).toLocaleString('en-IN')}</div>
                     <div class="qty-control" style="display:flex; align-items:center; gap:8px;">
