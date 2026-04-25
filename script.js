@@ -1,4 +1,4 @@
-// 1. ALL PRODUCT DATA
+// 1. COMPLETE PRODUCT LIST
 const products = [
   { id: 1, name: 'முழு நாட்டுக்கோழி - பெரியது (Family Pack)', category: 'whole', price: 1400, weight: '~2 kg', image: 'Family_Pack.png', badge: 'Best Value', badgeType: 'hot', desc: 'பெரிய குடும்ப விருந்துகளுக்கு ஏற்ற முழு நாட்டுக்கோழி.', rating: 4.9, reviews: 410 },
   { id: 2, name: 'முழு நாட்டுக்கோழி (Whole Chicken)', category: 'whole', price: 700, weight: '~1 kg', image: 'Whole_Chicken.png', badge: 'Best Seller', badgeType: 'hot', desc: 'இயற்கையான முறையில் வளர்ந்த ஆரோக்கியமான நாட்டுக்கோழி.', rating: 4.7, reviews: 448 },
@@ -10,29 +10,15 @@ const products = [
   { id: 8, name: 'பன்னீர் ஆப்பிள் (Water Apple)', category: 'fruits', price: 60, weight: '1 kg', image: 'Water_Apple.png', badge: 'Fresh', badgeType: 'new', desc: 'இனிப்பான மற்றும் நீர்ச்சத்து நிறைந்த பன்னீர் ஆப்பிள்.', rating: 4.8, reviews: 178 }
 ];
 
-// 2. STATE
+// 2. WEBSITE STATE
 let cart = JSON.parse(localStorage.getItem('nk_cart') || '[]');
 let wishlist = JSON.parse(localStorage.getItem('nk_wishlist') || '[]');
 
-// 3. MASTER UPDATE FUNCTION
-function updateCartAndUI() {
-    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-    const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-    
-    const cartBadge = document.getElementById('cartBadge');
-    if (cartBadge) cartBadge.textContent = totalQty;
-    
-    const cartTotalValue = document.getElementById('cartTotalValue');
-    if (cartTotalValue) cartTotalValue.textContent = `₹${totalPrice.toLocaleString('en-IN')}`;
-    
-    localStorage.setItem('nk_cart', JSON.stringify(cart));
-    displayProducts();
-}
-
-// 4. DISPLAY LOGIC (Separating Grids)
+// 3. THE "DRAWING" BRAIN (Displays products in two grids)
 function displayProducts() {
     const chickenGrid = document.getElementById('chickenGrid');
     const fruitGrid = document.getElementById('fruitGrid');
+
     if (!chickenGrid || !fruitGrid) return;
 
     chickenGrid.innerHTML = '';
@@ -48,7 +34,7 @@ function displayProducts() {
         card.innerHTML = `
             ${p.badge ? `<div class="product-badge ${p.badgeType}">${p.badge}</div>` : ''}
             <div class="product-img">
-                <img src="${p.image}" alt="${p.name}" style="width:100%; height:200px; object-fit:cover;">
+                <img src="${p.image}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: cover;">
                 <button class="product-wishlist" onclick="toggleWishlist(${p.id})">${isFav ? '❤️' : '🤍'}</button>
             </div>
             <div class="product-info">
@@ -57,39 +43,61 @@ function displayProducts() {
                 <div class="product-meta"><span>⚖️ ${p.weight}</span> <span>★ ${p.rating}</span></div>
                 <div class="product-footer">
                     <div class="product-price">₹${p.price}</div>
-                    ${qty > 0 ? \`<div class="qty-control" style="display:flex; align-items:center; gap:10px;">
-                        <button onclick="updateQty(\${p.id}, -1)">-</button>
-                        <span>\${qty}</span>
-                        <button onclick="updateQty(\${p.id}, 1)">+</button>
-                    </div>\` : \`<button class="btn-add-cart" onclick="addToCart(\${p.id})">+ Add</button>\`}
+                    ${qty > 0 
+                        ? `<div class="qty-control" style="display:flex; align-items:center; gap:10px;">
+                             <button onclick="updateQty(${p.id}, -1)">-</button>
+                             <span>${qty}</span>
+                             <button onclick="updateQty(${p.id}, 1)">+</button>
+                           </div>`
+                        : `<button class="btn-add-cart" onclick="addToCart(${p.id})">+ Add</button>`
+                    }
                 </div>
-            </div>`;
-        
-        p.category === 'fruits' ? fruitGrid.appendChild(card) : chickenGrid.appendChild(card);
+            </div>
+        `;
+
+        if (p.category === 'whole' || p.category === 'curry-cut') {
+            chickenGrid.appendChild(card);
+        } else if (p.category === 'fruits') {
+            fruitGrid.appendChild(card);
+        }
     });
+    
+    updateCartUI();
 }
 
-// 5. WINDOW FUNCTIONS
-window.addToCart = (id) => {
+// 4. ACTION FUNCTIONS
+window.addToCart = function(id) {
     const product = products.find(p => p.id === id);
     const existing = cart.find(i => i.id === id);
-    existing ? existing.qty++ : cart.push({ ...product, qty: 1 });
-    updateCartAndUI();
-};
+    if (existing) { existing.qty++; } else { cart.push({ ...product, qty: 1 }); }
+    saveAndUpdate();
+}
 
-window.updateQty = (id, delta) => {
+window.updateQty = function(id, delta) {
     const item = cart.find(i => i.id === id);
-    if (item) {
-        item.qty += delta;
-        if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
-        updateCartAndUI();
-    }
-};
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+    saveAndUpdate();
+}
 
-window.toggleWishlist = (id) => {
-    wishlist.includes(id) ? wishlist = wishlist.filter(x => x !== id) : wishlist.push(id);
+window.toggleWishlist = function(id) {
+    if (wishlist.includes(id)) { wishlist = wishlist.filter(x => x !== id); } 
+    else { wishlist.push(id); }
     localStorage.setItem('nk_wishlist', JSON.stringify(wishlist));
     displayProducts();
-};
+}
 
-document.addEventListener('DOMContentLoaded', updateCartAndUI);
+function saveAndUpdate() {
+    localStorage.setItem('nk_cart', JSON.stringify(cart));
+    displayProducts();
+}
+
+function updateCartUI() {
+    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+    const badge = document.getElementById('cartBadge');
+    if (badge) badge.textContent = totalQty;
+}
+
+// 5. START THE ENGINE
+document.addEventListener('DOMContentLoaded', displayProducts);
