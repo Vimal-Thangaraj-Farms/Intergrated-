@@ -219,7 +219,7 @@
     .hero-stats {
       display: flex; gap: 40px; margin-top: 48px;
     }
-    .stat { }
+    
     .stat-num {
   font-family: 'DM Sans', sans-serif !important;
   font-size: 30px; 
@@ -951,10 +951,46 @@
 <!-- ─── FOOTER ─── -->
 <footer>
   <div class="footer-grid">
-    <div class="footer-brand">
-      <div class="brand-name">🐓 Naatu Kozhi</div>
-      <p>Bringing the authentic taste of naatu kozhi from farm to your table. Fresh, clean, and honest country chicken.</p>
+    <div class="footer-brand" style="flex: 1.5; min-width: 300px;">
+    <div class="footer-logo" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+        <span style="font-size: 1.5rem;">🐓</span>
+        <div class="brand-name" style="margin: 0;">Naatu Kozhi</div>
     </div>
+    
+    <p style="color: var(--text-light); line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem;">
+        Bringing the authentic taste of naatu kozhi from farm to your table. Fresh, clean, and honest country chicken.
+    </p>
+
+    <div class="fruit-express" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+        <h4 style="color: var(--terracotta); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; margin-bottom: 15px; font-weight: bold;">Also from our Orchard</h4>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="Sapota.png" alt="Sapota" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); object-fit: cover;">
+                <div>
+                    <div style="color: var(--text-main); font-size: 0.85rem; font-weight: bold;">Sapota</div>
+                    <div style="color: var(--text-light); font-size: 0.7rem;">Naturally Sweet</div>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="water_apple.png" alt="Water Apple" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); object-fit: cover;">
+                <div>
+                    <div style="color: var(--text-main); font-size: 0.85rem; font-weight: bold;">Water Apple</div>
+                    <div style="color: var(--text-light); font-size: 0.7rem;">Crisp & Fresh</div>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="Then_Vazhai.png" alt="Then Vazhai" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); object-fit: cover;">
+                <div>
+                    <div style="color: var(--text-main); font-size: 0.85rem; font-weight: bold;">Then Vazhai</div>
+                    <div style="color: var(--text-light); font-size: 0.7rem;">Honey Banana</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="footer-col">
       <h4>Shop</h4>
       <ul>
