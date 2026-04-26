@@ -220,4 +220,28 @@ window.sortProducts = function(criteria, gridId, button) {
     container.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
     button.classList.add('active');
 };
+// Brain for Category Navigation
+window.filterCategory = function(type, element) {
+    // 1. Highlight the active card
+    document.querySelectorAll('.category-card').forEach(card => {
+        card.classList.remove('active');
+    });
+    element.classList.add('active');
+
+    // 2. Scroll to the section
+    if (type === 'chicken') {
+        const chickenSec = document.getElementById('chicken-products');
+        if (chickenSec) chickenSec.scrollIntoView({ behavior: 'smooth' });
+    } else if (type === 'fruits') {
+        const fruitSec = document.getElementById('fruitGrid');
+        if (fruitSec) {
+            // Scroll to the heading of the fruit section
+            const fruitHeading = fruitSec.closest('section');
+            fruitHeading.scrollIntoView({ behavior: 'smooth' });
+        }
+    } else {
+        // Go to top for 'All Products'
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+};
 document.addEventListener('DOMContentLoaded', updateAll);
