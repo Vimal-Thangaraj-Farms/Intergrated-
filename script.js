@@ -267,4 +267,32 @@ window.removeFromCart = function(id) {
         window.showToast("Item removed from cart", "error");
     }
 };
+// --- AUTH MODAL ACTIONS ---
+window.openAuthModal = function() {
+    const modal = document.getElementById('authModal');
+    if (modal) modal.classList.add('open');
+};
+
+window.closeAuthModal = function() {
+    const modal = document.getElementById('authModal');
+    if (modal) modal.classList.remove('open');
+};
+
+window.switchTab = function(tab) {
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const tabs = document.querySelectorAll('.modal-tab');
+
+    if (tab === 'login') {
+        loginForm.style.display = 'block';
+        signupForm.style.display = 'none';
+        tabs[0].classList.add('active');
+        tabs[1].classList.remove('active');
+    } else {
+        loginForm.style.display = 'none';
+        signupForm.style.display = 'block';
+        tabs[0].classList.remove('active');
+        tabs[1].classList.add('active');
+    }
+};
 document.addEventListener('DOMContentLoaded', updateAll);
