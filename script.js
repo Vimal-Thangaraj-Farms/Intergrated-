@@ -87,26 +87,36 @@ function displayProducts() {
 function renderCartSidebar() {
     const container = document.getElementById('cartItemsContainer');
     if (!container) return;
+
     if (cart.length === 0) {
-        container.innerHTML = '<div class="cart-empty" style="text-align:center; padding:40px 0;">Your cart is empty 🛒</div>';
+        container.innerHTML = '<div class="cart-empty" style="text-align:center; padding:40px 0;">Your cart is empty</div>';
         return;
     }
+
     container.innerHTML = cart.map(item => `
-        <div class="cart-item" style="display:flex; gap:15px; padding:15px 0; border-bottom:1px solid #eee;">
-            <img src="${item.image}" style="width:60px; height:60px; border-radius:10px; object-fit:cover;">
-            <div style="flex:1;">
-                <div style="font-weight:bold; font-size:14px; margin-bottom:5px;">${item.name}</div>
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="font-weight:bold; color:#C4522A;">₹${(item.price * item.qty).toLocaleString('en-IN')}</div>
-                    <div class="qty-control" style="display:flex; align-items:center; gap:8px;">
-                        <button onclick="updateQty(${item.id}, -1)" style="width:26px; height:26px; border-radius:50%; border:1px solid #ddd; background:white; cursor:pointer;">-</button>
-                        <span style="font-weight:bold;">${item.qty}</span>
-                        <button onclick="updateQty(${item.id}, 1)" style="width:26px; height:26px; border-radius:50%; border:1px solid #ddd; background:white; cursor:pointer;">+</button>
+            <div class="cart-item" style="display:flex; gap:15px; padding:15px 0; border-bottom:1px solid rgba(196,82,42,0.15); align-items: center;">
+                <img src="${item.image}" style="width:60px; height:60px; border-radius:12px; object-fit:cover; background: #eee;">
+                <div style="flex:1;">
+                    <div style="font-weight:600; font-size:14px; color: #1A1208; margin-bottom:4px;">${item.name}</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div style="font-weight:700; color:#C4522A; font-size:15px;">₹${(item.price * item.qty).toLocaleString('en-IN')}</div>
+                        
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <div class="qty-control" style="display:flex; align-items:center; gap:8px;">
+                                <button onclick="updateQty(${item.id}, -1)" class="qty-btn">-</button>
+                                <span class="qty-num">${item.qty}</span>
+                                <button onclick="updateQty(${item.id}, 1)" class="qty-btn">+</button>
+                            </div>
+
+                            <button onclick="removeFromCart(${item.id})" title="Remove Item" 
+                                style="background: #FFF5F5; border: 1px solid #FFE3E3; color: #FF4D4D; border-radius: 8px; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; padding: 0;">
+                                <i class="far fa-trash-alt" style="font-size: 14px;"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `).join('');
 }
 
 window.openCart = function() {
@@ -242,6 +252,19 @@ window.filterCategory = function(type, element) {
     } else {
         // Go to top for 'All Products'
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+};
+// --- GLOBAL ACTIONS: REMOVE FROM CART ---
+window.removeFromCart = function(id) {
+    // 1. Remove the item completely from the cart array
+    cart = cart.filter(item => item.id !== id);
+    
+    // 2. Refresh the UI, LocalStorage, and numbers across the site
+    updateAll(); 
+    
+    // 3. Show a red notification to confirm removal
+    if (window.showToast) {
+        window.showToast("Item removed from cart", "error");
     }
 };
 document.addEventListener('DOMContentLoaded', updateAll);
