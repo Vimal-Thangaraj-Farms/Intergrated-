@@ -1,7 +1,7 @@
 // 1. FULL PRODUCT DATA
 const products = [
   { id: 1, name: 'முழு நாட்டுக்கோழி - பெரியது (Family Pack)', category: 'whole', price: 1400, oldPrice: 1500, weight: '~2 kg', image: 'Family_Pack.png', badge: 'Best Value', badgeType: 'hot', desc: 'பெரிய குடும்ப விருந்துகளுக்கு ஏற்ற முழு நாட்டுக்கோழி. சிறந்த சுவை மற்றும் தரம்.', rating: 4.9, reviews: 410 },
-  { id: 2, name: 'முழு நாட்டுக்கோழி (Whole Chicken)', category: 'whole', price: 700, oldPrice: 800, weight: '~1 kg', image: 'Whole_Chickens.png', badge: 'Best Seller', badgeType: 'hot', desc: 'எங்கள் பண்ணையில் இயற்கையான முறையில் வளர்ந்த ஆரோக்கியமான நாட்டுக்கோழி.', rating: 4.7, reviews: 448 },
+  { id: 2, name: 'முழு நாட்டுக்கோழி (Whole Chicken)', category: 'whole', price: 700, oldPrice: 800, weight: '~1 kg', image: 'Whole_Chicken.png', badge: 'Best Seller', badgeType: 'hot', desc: 'எங்கள் பண்ணையில் இயற்கையான முறையில் வளர்ந்த ஆரோக்கியமான நாட்டுக்கோழி.', rating: 4.7, reviews: 448 },
   { id: 3, name: 'பெரிய கறி துண்டுகள் பேக் (Curry Cut Large)', category: 'curry-cut', price: 750, oldPrice: 850, weight: '1 kg', image: 'Curry_Cut_Large.png', badge: 'Popular', badgeType: 'hot', desc: 'பெரிய விசேஷங்களுக்கு ஏற்ற கறி துண்டுகள் பேக். எப்போதும் ஃப்ரெஷ் மற்றும் தரம்.', rating: 4.5, reviews: 303 },
   { id: 4, name: 'கறி துண்டுகள் (Curry Cut)', category: 'curry-cut', price: 750, oldPrice: 850, weight: '1 kg', image: 'Curry_Cut.png', badge: 'Fresh Today', badgeType: 'Most Like', desc: 'சுவையான நாட்டுக்கோழி குழம்பு வைக்க ஏற்ற சரியான அளவில் வெட்டப்பட்ட துண்டுகள்.', rating: 4.7, reviews: 296 },
   { id: 5, name: 'தேன் வாழைப் பழம் (Then Vazhai Palam)', category: 'fruits', price: 60, oldPrice: 80, weight: '1 kg', image: 'Then_Vazhai_Palam.png', badge: 'Farm Fresh', badgeType: 'new', desc: 'எங்கள் பண்ணையில் இயற்கை முறையில் பழுக்க வைக்கப்பட்ட இனிப்பு சுவை மிகுந்த தேன் வாழை.', rating: 4.7, reviews: 345 },
@@ -282,17 +282,21 @@ window.switchTab = function(tab) {
     const loginForm = document.getElementById('loginForm');
     const signupForm = document.getElementById('signupForm');
     const tabs = document.querySelectorAll('.modal-tab');
+    const modalTitle = document.querySelector('.modal-title'); // Finds the heading
 
     if (tab === 'login') {
         loginForm.style.display = 'block';
         signupForm.style.display = 'none';
         tabs[0].classList.add('active');
         tabs[1].classList.remove('active');
+        if (modalTitle) modalTitle.innerText = "Welcome Back";
     } else {
         loginForm.style.display = 'none';
         signupForm.style.display = 'block';
         tabs[0].classList.remove('active');
         tabs[1].classList.add('active');
+        if (modalTitle) modalTitle.innerText = "Join the Farm";
     }
 };
+
 document.addEventListener('DOMContentLoaded', updateAll);
