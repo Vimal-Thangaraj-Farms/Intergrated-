@@ -829,6 +829,31 @@
       .footer-grid { grid-template-columns: 1fr; }
       footer { padding: 40px 20px 24px; }
     }
+    /* Fix for Auth Modal on Mobile */
+    @media (max-width: 600px) {
+        .modal-overlay {
+            align-items: flex-end !important;
+        }
+        .modal {
+            height: 85vh !important;
+            margin-top: auto;
+            border-radius: 24px 24px 0 0 !important;
+            padding-top: 60px !important;
+            overflow-y: auto;
+        }
+        .modal-close {
+            top: 20px !important;
+            right: 20px !important;
+            width: 45px !important;
+            height: 45px !important;
+            background: #f0f0f0 !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            z-index: 999;
+        }
+    }
 
     /* Scrollbar */
     ::-webkit-scrollbar { width: 6px; }
@@ -1165,9 +1190,12 @@
         <input type="email" class="form-input" id="signupEmail" placeholder="you@example.com" />
       </div>
       <div class="form-group">
-        <label class="form-label">Phone Number</label>
-        <input type="tel" class="form-input" id="signupPhone" placeholder="+91 9708886124" />
-      </div>
+    <label>WhatsApp Number</label>
+    <input type="tel" 
+           id="regPhone" 
+           placeholder="Please enter your WhatsApp number" 
+           required>
+</div>
       <div class="form-group">
         <label class="form-label">Password</label>
         <input type="password" class="form-input" id="signupPassword" placeholder="Min 6 characters" />
