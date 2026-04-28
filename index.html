@@ -120,19 +120,20 @@
 
     /* ─── HERO ─── */
     .hero {
-      position: relative; overflow: hidden;
-      min-height: 88vh;
-      display: flex; align-items: center;
-      padding: 80px 40px;
-      background: linear-gradient(135deg, var(--cream) 0%, #F5E8D5 60%, #EDD4B6 100%);
-    }
+  position: relative;
+  overflow: hidden;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  padding: 80px 40px;
+  min-height: 80vh;
+}
 
-    .hero-bg-pattern {
-      position: absolute; inset: 0;
-      background-image:
-        radial-gradient(circle at 70% 30%, rgba(196,82,42,0.08) 0%, transparent 50%),
-        radial-gradient(circle at 20% 80%, rgba(212,168,67,0.06) 0%, transparent 40%);
-    }
+.hero-bg-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: none;
+}
 
     .hero-content {
       position: relative; z-index: 2;
@@ -816,8 +817,19 @@
     @media (max-width: 900px) {
       nav { padding: 0 20px; }
       .nav-links { display: none; }
-      .hero { padding: 60px 20px; }
-      .hero-image-container { display: none; }
+      .hero { 
+        flex-direction: column !important; /* Forces text on top, image below */
+        padding: 40px 20px !important; 
+        text-align: center;
+        min-height: auto !important;
+      }
+      .hero-content { max-width: 100% !important; margin-bottom: 30px; }
+      .hero-image-container { 
+        display: flex !important; /* Shows the banner instead of hiding it */
+        position: relative !important; 
+        width: 100% !important; 
+        justify-content: center;
+      }
       section { padding: 60px 20px; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
       .cart-sidebar { width: 100%; right: -100%; }
@@ -955,17 +967,17 @@
   </div>
   <div class="hero-image-container" style="width: 50%; display: flex; align-items: center; justify-content: center; padding: 20px;">
     <img src="VT_Farms_Banner-03.png" 
-         alt="Vimal Thangaraj Farms Banner" 
-         style="
-            width: 100%; 
-            max-width: 550px; 
-            height: auto; 
-            border-radius: 24px;       /* Smooth rounded corners matching items */
-            box-shadow: 0 20px 50px rgba(0,0,0,0.25); /* Deep, attractive shadow */
-            border: 6px solid white;    /* Clean white frame effect */
-            object-fit: cover;
-            transition: transform 0.4s ease;
-         ">
+             alt="Vimal Thangaraj Farms Banner" 
+             style="
+                width: 100%; 
+                max-width: 550px; 
+                height: auto; 
+                border-radius: 24px; /* Matches product card corners */
+                border: 1.5px solid rgba(196, 82, 42, 0.15); /* Exact same border as items */
+                box-shadow: 0 4px 32px rgba(61, 43, 26, 0.12); /* Exact same soft shadow as items */
+                object-fit: cover;
+                transition: transform 0.4s ease;
+             ">
 </div>
 </section>
 
