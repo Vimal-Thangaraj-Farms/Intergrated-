@@ -307,12 +307,20 @@ window.sendWhatsApp = function() {
         return;
     }
 
-    let message = "🌱 *New Order - Vimal Thangaraj Farms* 🌱\n";
-    message += "----------------------------------\n\n";
+    // Generate a unique Order ID based on Date and Time
+    const now = new Date();
+    const datePart = now.getDate().toString().padStart(2, '0') + (now.getMonth() + 1).toString().padStart(2, '0');
+    const timePart = now.getHours().toString().padStart(2, '0') + now.getMinutes().toString().padStart(2, '0');
+    const orderId = `VTF-${datePart}-${timePart}`;
+
+    let message = `🐔 *New Order - Vimal Thangaraj Farms* 🍎\n`;
+    message += `━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    message += `📄 *Order ID:* #${orderId}\n`; // This is your unique Invoice Number
+    message += `📅 *Date:* ${now.toLocaleDateString('en-IN')}\n`;
+    message += `━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
     let grandTotal = 0;
 
-    // This loops through every item to create your detailed bill
     cart.forEach((item, index) => {
         const itemTotal = item.price * item.qty;
         grandTotal += itemTotal;
@@ -322,9 +330,9 @@ window.sendWhatsApp = function() {
         message += `   Price: ₹${item.price} x ${item.qty} = *₹${itemTotal.toLocaleString('en-IN')}*\n\n`;
     });
 
-    message += "----------------------------------\n";
+    message += `━━━━━━━━━━━━━━━━━━━━━━━━\n`;
     message += `💰 *Grand Total: ₹${grandTotal.toLocaleString('en-IN')}*\n`;
-    message += "----------------------------------\n\n";
+    message += `━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
     message += "Please confirm my order. Thank you!";
 
     const encodedMessage = encodeURIComponent(message);
