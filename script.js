@@ -322,12 +322,16 @@ window.switchTab = function(tab) {
 document.addEventListener('DOMContentLoaded', updateAll);
 // --- WHATSAPP ORDER LOGIC ---
 window.sendWhatsApp = function() {
+    // 1. Ask the guard first
+    if (!isUserAuthorized()) return;
+
+    // 2. Check if cart is empty
     if (cart.length === 0) {
         showToast("Your cart is empty!", "error");
         return;
     }
 
-    // Generate a unique Order ID based on Date and Time
+    // 3. Generate Order ID
     const now = new Date();
     const datePart = now.getDate().toString().padStart(2, '0') + (now.getMonth() + 1).toString().padStart(2, '0');
     const timePart = now.getHours().toString().padStart(2, '0') + now.getMinutes().toString().padStart(2, '0');
