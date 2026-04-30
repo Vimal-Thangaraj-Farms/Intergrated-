@@ -1,3 +1,13 @@
+// --- FIREBASE AUTH SETUP ---
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+
+const auth = getAuth(window.firebaseApp);
+let currentUser = null; // This replaces your old 'isLoggedIn' variable
+
+onAuthStateChanged(auth, (user) => {
+    currentUser = user; 
+    console.log(user ? "User is logged in!" : "User is logged out.");
+});
 // 1. FULL PRODUCT DATA
 const products = [
   { id: 1, name: 'முழு நாட்டுக்கோழி - விடைக்கோழி (Female Chicken)', category: 'whole', price: 700, oldPrice: 800, weight: '1 kg', image: 'Female_Chicken.png', badge: 'Best Value', badgeType: 'hot', desc: 'சிறந்த சுவை மற்றும் தரம் கொண்ட விடைக்கோழி. கறி மிகவும் ருசியாகவும் ஆரோக்கியமாகவும் இருக்கும்.', rating: 4.6, reviews: 410 },
@@ -14,17 +24,36 @@ const products = [
 let cart = JSON.parse(localStorage.getItem('nk_cart') || '[]');
 let wishlist = JSON.parse(localStorage.getItem('nk_wishlist') || '[]');
 // --- AUTH STATE & SECURITY GUARD ---
-let isLoggedIn = false; // This tracks if the user is logged in. Default is false.
-
 function isUserAuthorized() {
-    if (!isLoggedIn) {
+    // We now check 'currentUser' (the Firebase state) instead of 'isLoggedIn'
+    if (!currentUser) { 
         showToast("Please Login or Register to continue", "error");
-        openAuthModal(); 
-        return false; // Block the action
+        openAuthModal();
+        return false; // Action blocked
     }
-    return true; // Allow the action
+    return true; // Action allowed
+}
+// --- AUTHENTICATION ACTIONS ---
+
+// 1. Call this when your "Register" button is clicked
+async function registerUser(email, password) {
+    try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        showToast("Account created successfully!", "success");
+    } catch (error) {
+        showToast("Error: " + error.message, "error");
+    }
 }
 
+// 2. Call this when your "Login" button is clicked
+async function loginUser(email, password) {
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+        showToast("Welcome back!", "success");
+    } catch (error) {
+        showToast("Login failed: " + error.message, "error");
+    }
+}
 // 3. MASTER UPDATE FUNCTION
 function updateAll() {
     localStorage.setItem('nk_cart', JSON.stringify(cart));
