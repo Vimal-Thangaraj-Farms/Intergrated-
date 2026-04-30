@@ -13,6 +13,17 @@ const products = [
 // 2. STATE
 let cart = JSON.parse(localStorage.getItem('nk_cart') || '[]');
 let wishlist = JSON.parse(localStorage.getItem('nk_wishlist') || '[]');
+// --- AUTH STATE & SECURITY GUARD ---
+let isLoggedIn = false; // This tracks if the user is logged in. Default is false.
+
+function isUserAuthorized() {
+    if (!isLoggedIn) {
+        showToast("Please Login or Register to continue", "error");
+        openAuthModal(); 
+        return false; // Block the action
+    }
+    return true; // Allow the action
+}
 
 // 3. MASTER UPDATE FUNCTION
 function updateAll() {
@@ -144,6 +155,10 @@ window.showToast = function(message, type = 'success') {
 
 // 7. GLOBAL ACTIONS
 window.addToCart = (id) => {
+    // 1. Ask the guard first
+    if (!isUserAuthorized()) return; 
+
+    // 2. If the guard says 'true', continue with your original code
     const product = products.find(p => p.id === id);
     const existing = cart.find(i => i.id === id);
     existing ? existing.qty++ : cart.push({ ...product, qty: 1 });
@@ -161,6 +176,10 @@ window.updateQty = (id, delta) => {
 };
 
 window.toggleWishlist = (id) => {
+    // 1. Ask the guard first
+    if (!isUserAuthorized()) return;
+
+    // 2. Original logic
     if (wishlist.includes(id)) {
         wishlist = wishlist.filter(x => x !== id);
         showToast('Removed from wishlist', 'info');
@@ -171,6 +190,7 @@ window.toggleWishlist = (id) => {
     localStorage.setItem('nk_wishlist', JSON.stringify(wishlist));
     displayProducts();
 };
+   
 window.sortProducts = function(criteria, gridId, button) {
     // 1. Filter products based on which grid we are sorting
     let filteredProducts = (gridId === 'fruitGrid') 
