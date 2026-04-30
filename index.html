@@ -1266,9 +1266,26 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <!-- ─── JAVASCRIPT ─── -->
-<script src="script.js"></script>
+<script type="module" src="script.js"></script>
 
 </style>
+<script type="module">
+  // 1. Import the function (This usually fixes the red lines)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
 
+  // 2. Your Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDgB3XPln162b6BFQCCruEtv4YHMEg6IUY",
+    authDomain: "vimal-thangaraj-farms.firebaseapp.com",
+    projectId: "vimal-thangaraj-farms",
+    storageBucket: "vimal-thangaraj-farms.firebasestorage.app",
+    messagingSenderId: "799970960669",
+    appId: "1:799970960669:web:11ea897d71973c875d2df4"
+  };
+
+  // 3. Initialize Firebase and make it available globally
+  const app = initializeApp(firebaseConfig);
+  window.firebaseApp = app; 
+</script>
 </body>
 </html>
