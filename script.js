@@ -1,7 +1,18 @@
-// --- FIREBASE AUTH SETUP ---
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+// --- FIREBASE INITIALIZATION ---
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
-const auth = getAuth(window.firebaseApp);
+const firebaseConfig = {
+    apiKey: "AIzaSyDgB3XPln162b6BFQCCruEtv4YHMEg6IUY",
+    authDomain: "vimal-thangaraj-farms.firebaseapp.com",
+    projectId: "vimal-thangaraj-farms",
+    storageBucket: "vimal-thangaraj-farms.firebasestorage.app",
+    messagingSenderId: "799970960669",
+    appId: "1:799970960669:web:11ea897d71973c875d2df4"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 let currentUser = null; // This replaces your old 'isLoggedIn' variable
 
 onAuthStateChanged(auth, (user) => {
@@ -394,3 +405,45 @@ window.sendWhatsApp = function() {
 
     window.open(whatsappURL, '_blank');
 };
+// --- SIGNUP & LOGIN LOGIC ---
+window.handleSignup = async function() {
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const phone = document.getElementById('signupPhone').value;
+
+    if (!email || !password) {
+        showToast("Please enter email and password", "error");
+        return;
+    }
+    await registerUser(email, password);
+};
+
+window.handleLogin = async function() {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    if (!email || !password) {
+        showToast("Please enter email and password", "error");
+        return;
+    }
+    await loginUser(email, password);
+};
+
+// --- BRIDGE TO HTML BUTTONS ---
+window.openAuthModal = openAuthModal;
+window.closeAuthModal = closeAuthModal;
+window.openCart = openCart;
+window.closeCart = closeCart;
+window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.updateQty = updateQty;
+window.toggleWishlist = toggleWishlist;
+window.sortProducts = sortProducts;
+window.filterCategory = filterCategory;
+window.sendWhatsApp = sendWhatsApp;
+window.switchTab = switchTab;
+window.toggleOrders = toggleOrders;
+window.scrollToSection = scrollToSection;
+window.handleLogin = handleLogin;
+window.handleSignup = handleSignup;
